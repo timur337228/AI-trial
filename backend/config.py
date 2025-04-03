@@ -52,13 +52,24 @@ NAME_COOKIE_AUTH = 'session_id'
 BASE_PARAM_COOKIE = {"path": "/",
                      "httponly": True,
                      "secure": False,
-                     "samesite": "lax",
-                     }
+                     "samesite": "lax", }
+
+
+class BASE_JWT(BaseModel):
+    private_key_path: Path = BASE_DIR / 'certs' / 'jwt-private.pem'
+    public_key_path: Path = BASE_DIR / 'certs' / 'jwt-public.pem'
+    algorithm: str = 'RS256'
+
+
+class AuthJWT(BASE_JWT):
+    access_token_expire_minutes: int = 1
+    refresh_token_expire_days: int = 30
 
 
 class Settings(BaseSettings):
     BASE_URL: str = 'http://localhost:3000'
     BASE_BACKEND_URL: str = "http://localhost:8080"
+    AUTH_JWT: AuthJWT = AuthJWT()
     TESSERACT_PATH: str
     KEY_OPENROUTER: str
     OPENAI_API_KEY: str = ''
