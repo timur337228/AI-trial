@@ -18,10 +18,10 @@ from backend.api.models.models import User
 
 prefix = "/auth"
 
-router = APIRouter(prefix=prefix, tags=['auth'], dependencies=[Depends(http_bearer)])
+router = APIRouter(prefix=prefix, tags=['auth'])
 
 
-@router.post('/register')
+@router.post('/register/')
 async def register_auth_user_jwt(
         user: User = Depends(validate_register_auth_user)
 ):
@@ -41,12 +41,13 @@ async def auth_user_jwt(
     return {"status": "success"}
 
 
-@router.get("/user/me")
+@router.get("/user/me/", )
 async def auth_user_check_self_info(
         user: User = Depends(get_current_active_auth_user)
 ):
     return {
-        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
         "email": user.email
     }
 
@@ -63,7 +64,7 @@ async def confirm_email(response: Response,
     return {'message': 'Good confirm Email'}
 
 
-@router.get("/logout")
+@router.get("/logout/")
 async def logout(request: Request):
     session_id = request.cookies.get("session_id")
     if session_id:

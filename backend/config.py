@@ -49,10 +49,9 @@ MAIN_TERMS = [
 LEGAL_TERMS = MAIN_TERMS + APPENDIX_ITEMS
 
 NAME_COOKIE_AUTH = 'session_id'
-BASE_PARAM_COOKIE = {"path": "/",
-                     "httponly": True,
+BASE_PARAM_COOKIE = {"httponly": True,
                      "secure": False,
-                     "samesite": "lax", }
+                     "samesite": "lax"}
 
 
 class BASE_JWT(BaseModel):

@@ -21,7 +21,7 @@ def generate_email_confirmation_token(email: EmailStr):
     return serializer.dumps(email.lower(), salt=settings.EMAIL_SALT)
 
 
-async def confirm_email_confirmation_token(token, expiration=3600):
+async def confirm_email_confirmation_token(token):
     try:
         error = HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No valid token")
         email = serializer.loads(token, salt=settings.EMAIL_SALT)
@@ -51,13 +51,16 @@ async def send_email(sender_email: EmailStr,
     message["To"] = receiver_email
     message["Subject"] = subject
     message.attach(MIMEText(body, "html"))
-    async with aiosmtplib.SMTP(hostname=smtp_server, port=smtp_port) as smtp:
-        await smtp.login(sender_email, password)
-        await smtp.send_message(message)
-        return True
+    try:
+        async with aiosmtplib.SMTP(hostname=smtp_server, port=smtp_port) as smtp:
+            await smtp.login(sender_email, password)
+            await smtp.send_message(message)
+            return True
+    except Exception:
+        return
 
 
-async def send_confirm_email(email: EmailStr, username: str):
+async def send_confirm_email(email: EmailStr, name: str):
     sender_email = settings.EMAIL
     subject = "Подтверждение почты"
     env = Environment(loader=FileSystemLoader(f"{BASE_DIR}/api/templates"))
@@ -65,7 +68,7 @@ async def send_confirm_email(email: EmailStr, username: str):
     token = generate_email_confirmation_token(email)
     confirmation_url = f"{settings.BASE_URL}/confirm_email/?token={token}"
     await update_user(email, token_verified=token)
-    body = template.render(username=username,
+    body = template.render(username=name,
                            confirmation_url=confirmation_url)
     smtp_server = "smtp.gmail.com"
     smtp_port = 587

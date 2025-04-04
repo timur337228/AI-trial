@@ -7,7 +7,8 @@ from typing import List, Optional, Dict
 
 
 class User(Base):
-    username: Mapped[str] = mapped_column(default='Mixx')
+    first_name: Mapped[str] = mapped_column()
+    last_name: Mapped[str] = mapped_column()
     email: Mapped[str] = mapped_column(
         type_=EmailType,
         unique=True,
@@ -19,5 +20,6 @@ class User(Base):
     is_verified: Mapped[bool] = mapped_column(default=False)
     is_confirm_to_support: Mapped[bool] = mapped_column(default=False)
     session_id: Mapped[str] = mapped_column(nullable=True, index=True)
+
 
 USER_COLUMNS = User.__table__.columns.keys()

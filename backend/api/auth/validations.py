@@ -47,7 +47,8 @@ async def get_current_active_auth_user_no_raise() -> User | None:
 
 
 async def validate_register_auth_user(
-        username: str = Form(default="Mixx"),
+        first_name: str = Form(),
+        last_name: str = Form(),
         email: EmailStr = Form(),
         password: str = Form(),
 ):
@@ -58,8 +59,8 @@ async def validate_register_auth_user(
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User authorized')
             # return await validate_auth_user(email=email, password=password)
     else:
-        user = await create_user(username=username, email=email, password=password)
-    await send_confirm_email(user.email, user.username)
+        user = await create_user(first_name=first_name, last_name=last_name, email=email, password=password)
+    await send_confirm_email(user.email, user.first_name)
     return user
 
 
@@ -68,7 +69,7 @@ async def validate_auth_user(
         password: str = Form(),
 ):
     unauth_exc = HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                               detail="invalid username or password")
+                               detail="invalid email or password")
     user = await get_user_by_value(email)
     if not user:
         raise unauth_exc

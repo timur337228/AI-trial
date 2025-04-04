@@ -8,7 +8,7 @@ from backend.api.models.db_client import AsyncSessionLocal
 from backend.api.redis.redis_helper import get_cached_user, create_cache_user, delete_cache_user
 
 unauth_exc = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                           detail="invalid username or password")
+                           detail="invalid email or password")
 
 
 async def get_user_by_value(value, column_type: str = 'email', active: bool = True,

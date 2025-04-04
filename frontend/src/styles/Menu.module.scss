@@ -1,0 +1,147 @@
+@import './variables';
+$purple-white-color: #8e8ea0;
+
+.menuContainer {
+    width: 260px;
+    height: 100vh;
+    background-color: $background-black;
+    color: #ececf1;
+    display: flex;
+    flex-direction: column;
+    font-family: $base-font;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+
+    .menuHeader {
+        padding: 12px;
+        border-bottom: 1px solid #444654;
+
+        .newChatButton {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #343541;
+            color: white;
+            border: 1px solid #565869;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: #40414f;
+            }
+
+            &.collapsed {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                padding: 0;
+            }
+
+            span {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .menuContent {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px;
+
+        .section {
+            margin-bottom: 20px;
+
+            .sectionTitle {
+                font-size: 14px;
+                font-weight: 500;
+                color: $purple-white-color;
+                padding: 8px 12px;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+
+                &:hover {
+                    background-color: #343541;
+                }
+
+                &.active {
+                    color: $white;
+                    background-color: #343541;
+                }
+            }
+
+            .itemsList {
+                list-style: none;
+                margin-top: 8px;
+                padding-left: 0;
+
+                .menuItem {
+                    padding: 8px 12px 8px 30px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    position: relative;
+                    font-size: 14px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    &:hover {
+                        background-color: #343541;
+                    }
+
+                    .itemIcon {
+                        position: absolute;
+                        left: 12px;
+                        color: $purple-white-color;
+                    }
+                }
+            }
+        }
+    }
+
+    .menuFooter {
+        padding: 12px;
+        border-top: 1px solid #444654;
+
+        .userProfile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: #343541;
+            }
+
+            .profileIcon {
+                width: 24px;
+                height: 24px;
+                background-color: #565869;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+            }
+
+            .profileName {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
